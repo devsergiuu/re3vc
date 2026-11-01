@@ -29,6 +29,7 @@ jobs:
             -DCMAKE_TOOLCHAIN_FILE=ios.toolchain.cmake \
             -DPLATFORM=OS64 \
             -DDEPLOYMENT_TARGET=12.0 \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
             -DCMAKE_INSTALL_PREFIX=./build-ios/install \
             -DLIBRW_PLATFORM=GL3 \
             -DLIBRW_GL3_GFXLIB=SDL2 \
