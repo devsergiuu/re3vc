@@ -1,5 +1,5 @@
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index aeb6afc..61d5baf 100644
+index aeb6afc..4318d2b 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
 @@ -148,13 +148,21 @@ set_target_properties(librw
@@ -30,7 +30,7 @@ index aeb6afc..61d5baf 100644
      if (LIBRW_GL3_GFXLIB STREQUAL "GLFW")
          find_package(glfw3 REQUIRED)
          target_link_libraries(librw
-@@ -162,7 +170,9 @@ if(LIBRW_PLATFORM_GL3)
+@@ -162,7 +170,15 @@ if(LIBRW_PLATFORM_GL3)
                  glfw
              )
      elseif (LIBRW_GL3_GFXLIB STREQUAL "SDL2")
