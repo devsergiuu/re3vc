@@ -1,8 +1,5 @@
 #if defined RW_GL3 && defined __IPHONEOS__
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-
 #include <sys/sysctl.h>
 #include <mach/mach_host.h>
 #include <errno.h>
@@ -38,6 +35,7 @@
 
 #include <SDL.h>
 #include <SDL_main.h>
+#include <SDL_filesystem.h>
 #undef main
 
 #define MAX_SUBSYSTEMS (16)
@@ -115,8 +113,8 @@ void _psCreateFolder(const char *path)
 const char *_psGetUserFilesFolder()
 {
 	static char szUserFiles[512];
-	NSString *docs = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-	snprintf(szUserFiles, sizeof(szUserFiles), "%s/userfiles", [docs UTF8String]);
+	const char *home = getenv("HOME");
+	snprintf(szUserFiles, sizeof(szUserFiles), "%s/userfiles", home ? home : "/");
 	_psCreateFolder(szUserFiles);
 	return szUserFiles;
 }
