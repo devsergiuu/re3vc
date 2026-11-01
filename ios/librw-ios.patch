@@ -1,0 +1,43 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index aeb6afc..61d5baf 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -148,13 +148,21 @@ set_target_properties(librw
+ )
+ 
+ if(LIBRW_PLATFORM_GL3)
+-    set(OpenGL_GL_PREFERENCE GLVND)
+-    find_package(OpenGL REQUIRED)
++    if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
++        find_library(OPENGLES_FRAMEWORK OpenGLES REQUIRED)
++        target_link_libraries(librw
++            PUBLIC
++                ${OPENGLES_FRAMEWORK}
++        )
++    else()
++        set(OpenGL_GL_PREFERENCE GLVND)
++        find_package(OpenGL REQUIRED)
+ 
+-    target_link_libraries(librw
+-        PUBLIC
+-            OpenGL::GL
+-    )
++        target_link_libraries(librw
++            PUBLIC
++                OpenGL::GL
++        )
++    endif()
+     if (LIBRW_GL3_GFXLIB STREQUAL "GLFW")
+         find_package(glfw3 REQUIRED)
+         target_link_libraries(librw
+@@ -162,7 +170,9 @@ if(LIBRW_PLATFORM_GL3)
+                 glfw
+             )
+     elseif (LIBRW_GL3_GFXLIB STREQUAL "SDL2")
+-        find_package(SDL2 REQUIRED)
++        if(NOT TARGET SDL2::SDL2)
++            find_package(SDL2 REQUIRED)
++        endif()
+         target_compile_definitions(librw PUBLIC LIBRW_SDL2)
+         target_link_libraries(librw
+             PUBLIC

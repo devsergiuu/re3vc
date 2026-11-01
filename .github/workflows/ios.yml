@@ -18,6 +18,10 @@ jobs:
         run: |
           curl -L -o ios.toolchain.cmake https://raw.githubusercontent.com/leetal/ios-cmake/master/ios.toolchain.cmake
 
+      - name: Patch librw for iOS
+        run: |
+          git -C vendor/librw apply ${GITHUB_WORKSPACE}/ios/librw-ios.patch
+
       - name: Configure
         run: |
           cmake -B build-ios -S . \
