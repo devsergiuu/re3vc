@@ -91,7 +91,9 @@ int gameRun(int argc, char *argv[]);
 
 int SDL_main(int argc, char **argv)
 {
-	chdir([[[NSBundle mainBundle] resourcePath] UTF8String]);
+	const char *basePath = SDL_GetBasePath();
+	if (basePath)
+		chdir(basePath);
 	return gameRun(argc, argv);
 }
 
