@@ -21,7 +21,7 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/extras/GitSHA1.cpp.in" "${CMAKE_CURR
 list(APPEND ${PROJECT}_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/extras/GitSHA1.cpp")
 
 if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
-    list(FILTER ${PROJECT}_SOURCES EXCLUDE REGEX "/skel/glfw/|/skel/win/")
+    list(FILTER ${PROJECT}_SOURCES EXCLUDE REGEX "/skel/glfw/|/skel/win/|/audio/eax/")
 endif()
 
 add_executable(${EXECUTABLE} WIN32

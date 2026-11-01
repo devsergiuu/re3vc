@@ -33,7 +33,7 @@ jobs:
             -DCMAKE_INSTALL_PREFIX=./build-ios/install \
             -DLIBRW_PLATFORM=GL3 \
             -DLIBRW_GL3_GFXLIB=SDL2 \
-            -DREVC_AUDIO=OAL \
+            -DREVC_AUDIO=NONE \
             -DREVC_INSTALL=ON \
             -DMACOSX_BUNDLE_GUI_IDENTIFIER=com.reVC.ios \
             -DMACOSX_BUNDLE_BUNDLE_NAME=reVC \

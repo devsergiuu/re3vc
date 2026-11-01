@@ -11,9 +11,9 @@ get_git_head_revision(GIT_REFSPEC GIT_SHA1 "ALLOW_LOOKING_ABOVE_CMAKE_SOURCE_DIR
 message(STATUS "Building ${CMAKE_PROJECT_NAME} GIT SHA1: ${GIT_SHA1}")
 
 if(WIN32)
-    set(${PROJECT}_AUDIOS "OAL" "MSS")
+    set(${PROJECT}_AUDIOS "OAL" "MSS" "NONE")
 else()
-    set(${PROJECT}_AUDIOS "OAL")
+    set(${PROJECT}_AUDIOS "OAL" "NONE")
 endif()
 
 set(${PROJECT}_AUDIO "OAL" CACHE STRING "Audio")
