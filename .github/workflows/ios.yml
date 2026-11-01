@@ -22,6 +22,12 @@ jobs:
         run: |
           git -C vendor/librw apply ${GITHUB_WORKSPACE}/ios/librw-ios.patch
 
+      - name: Generate shaders
+        run: |
+          cd src/extras/shaders
+          mkdir -p obj
+          for s in *.frag *.vert; do sh makeinc_glsl.sh "$s"; done
+
       - name: Configure
         run: |
           cmake -B build-ios -S . \
