@@ -114,11 +114,6 @@ cSampleManager::SetMusicMasterVolume(uint8 nVolume)
 }
 
 void
-cSampleManager::SetMusicMasterVolume(uint8 nVolume)
-{
-}
-
-void
 cSampleManager::SetEffectsFadeVolume(uint8 nVolume)
 {
 }
