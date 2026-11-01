@@ -270,8 +270,6 @@ extern "C" RwInt32 _psGetNumVideModes() { return 1; }
 extern "C" RwChar** _psGetVideoModeList() { return NULL; }
 extern "C" void _psSelectScreenVM(RwInt32 videoMode) { }
 
-void MultiSamplingButtonPress(int8 action) { }
-void ScreenModeAfterChange(int8 before, int8 after) { }
 void cSampleManager::SetMP3BoostVolume(uint8 nVolume) { }
 
 void TerminateHandler(int, siginfo_t*, void*) { RsGlobal.quit = TRUE; }
