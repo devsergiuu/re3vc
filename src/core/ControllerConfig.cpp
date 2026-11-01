@@ -43,7 +43,7 @@ void CControllerConfigManager::MakeControllerActionsBlank()
 	}
 }
 
-#ifdef RW_GL3
+#if defined(RW_GL3) && !defined(__IPHONEOS__)
 int MapIdToButtonId(int mapId) {
 	switch (mapId) {
 		case GLFW_GAMEPAD_BUTTON_A: // Cross
@@ -97,18 +97,24 @@ int32 CControllerConfigManager::GetJoyButtonJustDown()
 		if (m_NewState.rgbButtons[i] & 0x80 && !(m_OldState.rgbButtons[i] & 0x80))
 			return i + 1;
 	}
-#elif defined RW_GL3
+#else
+#	if defined(RW_GL3) && !defined(__IPHONEOS__)
 	if (m_NewState.isGamepad) {
 		for (int32 i = 0; i < MAX_BUTTONS; i++) {
 			if (m_NewState.mappedButtons[i] && !(m_OldState.mappedButtons[i]))
 				return MapIdToButtonId(i);
 		}
-	} else {
+		return 0;
+	}
+#	endif
+#	if defined(RW_GL3)
+	{
 		for (int32 i = 0; i < Min(m_NewState.numButtons, MAX_BUTTONS); i++) {
 			if (m_NewState.buttons[i] && !(m_OldState.buttons[i]))
 				return i + 1;
 		}
 	}
+#	endif
 #endif
 	return 0;
 }
@@ -2788,7 +2794,8 @@ void CControllerConfigManager::UpdateJoyButtonState(int32 padnumber)
 		else
 			m_aButtonStates[i] = false;
 	}
-#elif defined RW_GL3
+#else
+#	if defined(RW_GL3) && !defined(__IPHONEOS__)
 	if (m_NewState.isGamepad) {
 		for (int32 i = 0; i < MAX_BUTTONS; i++) {
 			if (i == GLFW_GAMEPAD_BUTTON_GUIDE)
@@ -2796,11 +2803,16 @@ void CControllerConfigManager::UpdateJoyButtonState(int32 padnumber)
 
 			m_aButtonStates[MapIdToButtonId(i)-1] = m_NewState.mappedButtons[i];
 		}
-	} else {
+		return;
+	}
+#	endif
+#	if defined(RW_GL3)
+	{
 		for (int32 i = 0; i < Min(m_NewState.numButtons, MAX_BUTTONS); i++) {
 			m_aButtonStates[i] = m_NewState.buttons[i];
 		}
 	}
+#	endif
 #endif
 }
 
