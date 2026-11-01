@@ -23,6 +23,7 @@
 #include "Pad.h"
 #include "Timer.h"
 #include "DMAudio.h"
+#include "sampman.h"
 #include "ControllerConfig.h"
 #include "Frontend.h"
 #include "Game.h"
@@ -262,6 +263,16 @@ void _InputShutdownMouse() { }
 bool _InputMouseNeedsExclusive() { return false; }
 long _InputInitialiseMouse(bool) { return 0; }
 void joysChangeCB(int, int) { }
+
+extern "C" void _InputTranslateShiftKeyUpDown(RsKeyCodes *rs) { }
+extern "C" void CapturePad(RwInt32 padID) { }
+extern "C" RwInt32 _psGetNumVideModes() { return 1; }
+extern "C" RwChar** _psGetVideoModeList() { return NULL; }
+extern "C" void _psSelectScreenVM(RwInt32 videoMode) { }
+
+void MultiSamplingButtonPress(int8 action) { }
+void ScreenModeAfterChange(int8 before, int8 after) { }
+void cSampleManager::SetMP3BoostVolume(uint8 nVolume) { }
 
 void TerminateHandler(int, siginfo_t*, void*) { RsGlobal.quit = TRUE; }
 void HandleExit() { }
