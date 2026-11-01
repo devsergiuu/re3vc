@@ -1240,7 +1240,9 @@ void re3_trace(const char *filename, unsigned int lineno, const char *func, cons
 	sprintf(buff, "[%s.%s:%d]: %s", filename, func, lineno, re3_buff);
 #endif
 
+#ifdef _WIN32
 	OutputDebugString(buff);
+#endif
 }
 
 void re3_usererror(const char *format, ...)
