@@ -610,7 +610,7 @@ CMenuManager::CentreMousePointer()
 		Point.y = SCREEN_HEIGHT / 2;
 		ClientToScreen(PSGLOBAL(window), &Point);
 		SetCursorPos(Point.x, Point.y);
-#elif defined RW_GL3
+#elif defined RW_GL3 && !defined __IPHONEOS__
 		glfwSetCursorPos(PSGLOBAL(window), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 #endif
 
@@ -4545,7 +4545,7 @@ CMenuManager::ProcessUserInput(uint8 goDown, uint8 goUp, uint8 optionSelected, u
 
 #ifdef USE_DEBUG_SCRIPT_LOADER
 	if (m_nCurrScreen == MENUPAGE_START_MENU || m_nCurrScreen == MENUPAGE_NEW_GAME || m_nCurrScreen == MENUPAGE_NEW_GAME_RELOAD) {
-#ifdef RW_GL3
+#if defined RW_GL3 && !defined __IPHONEOS__
 		if (glfwGetKey(PSGLOBAL(window), GLFW_KEY_R) == GLFW_PRESS) {
 			scriptToLoad = 1;
 			DoSettingsBeforeStartingAGame();
@@ -4841,18 +4841,18 @@ CMenuManager::ProcessUserInput(uint8 goDown, uint8 goUp, uint8 optionSelected, u
 					ControlsManager.MakeControllerActionsBlank();
 					ControlsManager.InitDefaultControlConfiguration();
 					ControlsManager.InitDefaultControlConfigMouse(MousePointerStateHelper.GetMouseSetUp());
-#if !defined RW_GL3
+#if defined(RW_GL3) && !defined(__IPHONEOS__)
+					if (PSGLOBAL(joy1id) != -1 && glfwJoystickPresent(PSGLOBAL(joy1id))) {
+						int count;
+						glfwGetJoystickButtons(PSGLOBAL(joy1id), &count);
+						ControlsManager.InitDefaultControlConfigJoyPad(count);
+					}
+#elif !defined(RW_GL3)
 					if (AllValidWinJoys.m_aJoys[JOYSTICK1].m_bInitialised) {
 						DIDEVCAPS devCaps;
 						devCaps.dwSize = sizeof(DIDEVCAPS);
 						PSGLOBAL(joy1)->GetCapabilities(&devCaps);
 						ControlsManager.InitDefaultControlConfigJoyPad(devCaps.dwButtons);
-					}
-#else
-					if (PSGLOBAL(joy1id) != -1 && glfwJoystickPresent(PSGLOBAL(joy1id))) {
-						int count;
-						glfwGetJoystickButtons(PSGLOBAL(joy1id), &count);
-						ControlsManager.InitDefaultControlConfigJoyPad(count);
 					}
 #endif
 					MousePointerStateHelper.bInvertVertically = true;
