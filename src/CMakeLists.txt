@@ -20,6 +20,10 @@ header_directories(${PROJECT}_INCLUDES)
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/extras/GitSHA1.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/extras/GitSHA1.cpp" @ONLY)
 list(APPEND ${PROJECT}_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/extras/GitSHA1.cpp")
 
+if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
+    list(FILTER ${PROJECT}_SOURCES EXCLUDE REGEX "/skel/glfw/|/skel/win/")
+endif()
+
 add_executable(${EXECUTABLE} WIN32
     ${${PROJECT}_SOURCES}
 )
@@ -28,6 +32,10 @@ target_link_libraries(${EXECUTABLE} PRIVATE
     librw::librw
     Threads::Threads
 )
+if(UNIX AND NOT APPLE)
+    find_package(X11 REQUIRED)
+    target_link_libraries(${EXECUTABLE} PRIVATE X11::X11)
+endif()
 
 target_include_directories(${EXECUTABLE}
     PRIVATE

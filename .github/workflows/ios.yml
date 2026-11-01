@@ -1,0 +1,55 @@
+name: iOS build (reVC)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ miami, ios ]
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Fetch ios-cmake toolchain
+        run: |
+          curl -L -o ios.toolchain.cmake https://raw.githubusercontent.com/leetal/ios-cmake/master/ios.toolchain.cmake
+
+      - name: Configure
+        run: |
+          cmake -B build-ios -S . \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_TOOLCHAIN_FILE=ios.toolchain.cmake \
+            -DPLATFORM=OS64 \
+            -DDEPLOYMENT_TARGET=12.0 \
+            -DCMAKE_INSTALL_PREFIX=./build-ios/install \
+            -DLIBRW_PLATFORM=GL3 \
+            -DLIBRW_GL3_GFXLIB=SDL2 \
+            -DREVC_AUDIO=OAL \
+            -DREVC_INSTALL=ON \
+            -DMACOSX_BUNDLE_GUI_IDENTIFIER=com.reVC.ios \
+            -DMACOSX_BUNDLE_BUNDLE_NAME=reVC \
+            -DMACOSX_BUNDLE_INFO_PLIST=${{ github.workspace }}/ios/Info.plist.in
+
+      - name: Build
+        run: |
+          cmake --build build-ios -j $(sysctl -n hw.ncpu)
+
+      - name: Assemble IPA
+        run: |
+          APP=$(find build-ios -name "*.app" -type d | head -1)
+          echo "APP: $APP"
+          cp -v gamefiles/* "$APP/" 2>/dev/null || true
+          mkdir -p Payload
+          cp -R "$APP" Payload/
+          zip -r reVC-unsigned.ipa Payload
+          ls -la *.ipa
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: reVC-ios-unsigned-ipa
+          path: reVC-unsigned.ipa

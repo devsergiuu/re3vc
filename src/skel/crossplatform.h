@@ -59,7 +59,11 @@ FILE *_fcaseopen(char const *filename, char const *mode);
 #ifdef RW_GL3
 typedef struct
 {
+#if defined(__IPHONEOS__)
+    void* window;
+#else
     GLFWwindow* window;
+#endif
     RwBool		fullScreen;
     RwV2d		lastMousePos;
     double      mouseWheel; // glfw doesn't cache it
