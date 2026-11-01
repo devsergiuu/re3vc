@@ -50,7 +50,11 @@ extern "C" {
 
 
 #else // AUDIO_OAL
-	#include <AL/al.h>
+	#ifdef __IPHONEOS__
+#include <OpenAL/al.h>
+#else
+#include <AL/al.h>
+#endif
 	#include <string.h>
 
 	#ifndef GUID_DEFINED

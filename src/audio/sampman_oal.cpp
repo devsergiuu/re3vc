@@ -8,7 +8,11 @@
 
 #ifdef _WIN32
 #include <io.h>
+#ifdef __IPHONEOS__
+#include <OpenAL/al.h>
+#else
 #include <AL/al.h>
+#endif
 #include <AL/alc.h>
 #include <AL/alext.h>
 #include <AL/efx.h>

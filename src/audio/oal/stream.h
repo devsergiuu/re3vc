@@ -1,7 +1,11 @@
 #pragma once
 
 #ifdef AUDIO_OAL
+#ifdef __IPHONEOS__
+#include <OpenAL/al.h>
+#else
 #include <AL/al.h>
+#endif
 
 #define NUM_STREAMBUFFERS 8
 

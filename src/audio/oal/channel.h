@@ -2,7 +2,11 @@
 
 #ifdef AUDIO_OAL
 #include "oal/oal_utils.h"
+#ifdef __IPHONEOS__
+#include <OpenAL/al.h>
+#else
 #include <AL/al.h>
+#endif
 #include <AL/alext.h>
 #include <AL/efx.h>
 
