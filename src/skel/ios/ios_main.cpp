@@ -265,7 +265,7 @@ long _InputInitialiseMouse(bool) { return 0; }
 void joysChangeCB(int, int) { }
 
 extern "C" void _InputTranslateShiftKeyUpDown(RsKeyCodes *rs) { }
-extern "C" void CapturePad(RwInt32 padID) { }
+void CapturePad(RwInt32 padID) { }
 extern "C" RwInt32 _psGetNumVideModes() { return 1; }
 extern "C" RwChar** _psGetVideoModeList() { return NULL; }
 extern "C" void _psSelectScreenVM(RwInt32 videoMode) { }
