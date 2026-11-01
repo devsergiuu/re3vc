@@ -189,7 +189,7 @@ void InitialiseLanguage()
 	if (lang == LANG_ITALIAN)
 		FrontEndMenuManager.m_PrefsLanguage = CMenuManager::LANGUAGE_ITALIAN;
 	else if (lang == LANG_SPANISH)
-		CMenuManager::m_PrefsLanguage = CMenuManager::LANGUAGE_SPANISH;
+		FrontEndMenuManager.m_PrefsLanguage = CMenuManager::LANGUAGE_SPANISH;
 	else if (lang == LANG_GERMAN) {
 		CGame::nastyGame = false;
 		FrontEndMenuManager.m_PrefsAllowNastyGame = false;
@@ -201,7 +201,7 @@ void InitialiseLanguage()
 		CGame::frenchGame = true;
 		FrontEndMenuManager.m_PrefsLanguage = CMenuManager::LANGUAGE_FRENCH;
 	} else
-		CMenuManager::m_PrefsLanguage = CMenuManager::LANGUAGE_AMERICAN;
+		FrontEndMenuManager.m_PrefsLanguage = CMenuManager::LANGUAGE_AMERICAN;
 
 	FrontEndMenuManager.OS_Language = lang;
 
@@ -350,7 +350,7 @@ static void HandleTouch(const SDL_Event &ev)
 			FrontEndMenuManager.m_nMouseTempPosY = (int)(y * RsGlobal.maximumHeight);
 		}
 		if (pad) {
-			PCTempMouseControllerState ms;
+			CMouseControllerState ms;
 			ms.Clear();
 			ms.LMB = (ev.type != SDL_FINGERUP);
 			CPad::PCTempMouseControllerState = ms;
@@ -468,7 +468,8 @@ gameRun(int argc, char *argv[])
 	openParams.width = RsGlobal.maximumWidth;
 	openParams.height = RsGlobal.maximumHeight;
 	openParams.windowtitle = RsGlobal.appName;
-	openParams.window = &PSGLOBAL(window);
+	SDL_Window *iosWindow = NULL;
+	openParams.window = &iosWindow;
 
 	ControlsManager.MakeControllerActionsBlank();
 	ControlsManager.InitDefaultControlConfiguration();
